@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
@@ -56,7 +58,7 @@ require('./config/passport')(passport); // pass passport for configuration
 
 
 //routes
-const index = require('./routes/index');
+const index = require('./routes/index')(io);
 const users = require('./routes/users')(passport);
 app.use('/', index);
 app.use('/users', users);
@@ -64,6 +66,6 @@ app.use('/users', users);
 
 //starting the server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, function () {
+server.listen(PORT, function () {
   console.log(`App listening on port ${PORT}`);
 });

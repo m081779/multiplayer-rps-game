@@ -2,6 +2,12 @@
   <h1>Signup</h1>
   <a href="/">Home</a>
   <a href="/login">Login</a>
+  {{#if error}}
+    <div class="alert alert-danger">{{error}}</div>
+{{/if}}
+{{#if signupMessage}}
+    <div class="alert alert-danger">{{signupMessage}}</div>
+{{/if}}
 <form action="/users/signup" method="POST">
   <div class="form-group">
     <label for="username">Username:</label>

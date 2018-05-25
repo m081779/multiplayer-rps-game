@@ -1,0 +1,23 @@
+
+<h1>Rock paper scissors</h1>
+<a href="/users/logout">Log Out</a>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  
+  let socket = io();
+	let thisUser;
+	console.log('Socket Connection:',socket)
+{{!-- 
+	$.ajax({
+		url: '/getUser',
+		type: 'GET',
+		success: function (user){
+			{{log currentUser}}
+			console.log('user from /getUser:', user)
+			thisUser = user;
+		},
+		error: function (err){
+			console.log('error from /getuser',err)
+		}
+	}) --}}
+</script>
