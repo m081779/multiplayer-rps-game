@@ -30,8 +30,8 @@
 
   let socket = io();
 	let thisUser;
-	console.log('Socket Connection:',socket)
-{{!--
+	console.log('Socket Connection:',socket, thisUser)
+
 	$.ajax({
 		url: '/getUser',
 		type: 'GET',
@@ -43,5 +43,5 @@
 		error: function (err){
 			console.log('error from /getuser',err)
 		}
-	}) --}}
+	})
 </script>

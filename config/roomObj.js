@@ -24,7 +24,6 @@ module.exports = {
       //if true, there's a hole in the sequence so create a room at that index
       if (key !== i+1){
         let newRoom = i+1;
-        console.log(key, i+1,'not equal');
         this.rooms[empty] = {player1: '', player2: ''};
         return newRoom;
       }
