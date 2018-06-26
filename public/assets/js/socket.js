@@ -14,8 +14,10 @@ if (typeof socket !== "undefined"){
   //   }
   // })
   socket.on('player1', function(data){
+    console.log(data.player2, 'player2');
+    console.log(typeof data.player2==='undefined', 'player2 type');
     $('#p1Username').text(data.player1);
-    if(data.player2){
+    if(typeof data.player2 === 'undefined'){
       $('#p2Username').text('Waiting for player 2');
     }
     console.log(data, 'data from socket player1');
