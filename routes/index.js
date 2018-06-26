@@ -2,14 +2,16 @@ const express = require('express');
 const router = express.Router();
 const socketObj = require('../config/socketObj');
 const roomObj = require('../config/roomObj');
-let player1 = '',
-    player2 = '';
+
 
 module.exports = router;
 
 module.exports = function (io){
   let  currentUser = '',
-       connections = {};
+       connections = {},
+       player1,
+       player2,
+       room;
   router.get('/', function (req,res) {
     res.render('index');
   });
@@ -32,10 +34,12 @@ module.exports = function (io){
     currentUser = req.user;
 
     res.render('dashboard', {
-      message: req.flash('message'),
-      player1: player1,
-      player2: player2
+      message: req.flash('message')
     });
+  });
+
+  router.get('/getInfo', function (req,res){
+    res.json({roomNumber: roomNumber});
   });
 
   io.on('connection', function (socket){
@@ -44,18 +48,24 @@ module.exports = function (io){
     //add connection to object that stores usernames and socket id's as property value pairs
     socketObj.addConnection(username, id, function () {
       console.log('connection added', socketObj.connections[username]);
-      let roomNumber = roomObj.addPlayer(username);//stores room number returned from adding a player
-      let player;
+      roomNumber = roomObj.addPlayer(username);//stores room number returned from adding a player
       if (roomObj.rooms[roomNumber].player1===username){
-        player = 'player 1';
+        player1 = username;
+        socket.join(roomNumber);
+        io.to(roomNumber).emit('player1', {player1,player2});
       } else if (roomObj.rooms[roomNumber].player2===username){
-        player = 'player 2';
+        player2 = username;
+        socket.join(roomNumber);
+        io.to(roomNumber).emit('player2', {player1,player2});
       }
-      console.log(`${username} added as ${player} to room ${roomNumber}`);
+      socket.join(roomNumber);
+      io.to(roomNumber).emit('player', username);
+      console.log(`${username} added to room ${roomNumber}`);
     });
 
-    connections = socketObj.getAllConnections();
+    connections = socketObj.getAllConnections();//gets entire socket object with all connections
 
+    //on disconnect handles removing player from socketObject and from roomObject
     socket.on('disconnect', function(){
       socketObj.deleteConnection(username, function(){
         roomObj.deletePlayer(username);
