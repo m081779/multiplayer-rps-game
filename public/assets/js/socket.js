@@ -25,7 +25,12 @@ if (typeof socket !== "undefined"){
   socket.on('player2', function(data){
     $('#p1Username').text(data.player1);
     $('#p2Username').text(data.player2);
+    $('.choices').show();
     console.log(data, 'data from socket player2');
   });
+
+  $('body').on('click', '.choice', function (){
+    console.log($(this).parent().attr('id'));
+  })
 }
 
