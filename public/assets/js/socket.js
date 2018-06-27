@@ -25,12 +25,23 @@ if (typeof socket !== "undefined"){
   socket.on('player2', function(data){
     $('#p1Username').text(data.player1);
     $('#p2Username').text(data.player2);
-    $('.choices').show();
+    $('#messageHeader').text('Are you ready to play?');
+    setTimeout(function (){
+      $('#messageHeader').text('Let\'s begin!');
+      $('#messageText').text('Player 1 make your choice...');
+      $('#p1Choices').show();
+    }, 2000);
     console.log(data, 'data from socket player2');
   });
 
   $('body').on('click', '.choice', function (){
-    console.log($(this).parent().attr('id'));
-  })
+    let p1Choice = '',
+        p2Choice = '';
+    p1choice = $(this).text();
+    console.log(typeof p1Choice, '$(this).text()');
+    if (p1Choice !== ''){
+      console.log(p1Choice, p2Choice)
+    }
+  });
 }
 
