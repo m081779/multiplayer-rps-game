@@ -45,6 +45,9 @@ module.exports = function (io){
   io.on('connection', function (socket){
     let username = currentUser.username;
         id = socket.id;
+        p1Choice = '',
+        p2Choice = '',
+        winner = '';
     //add connection to object that stores usernames and socket id's as property value pairs
     socketObj.addConnection(username, id, function () {
       console.log('connection added', socketObj.connections[username]);
@@ -60,13 +63,26 @@ module.exports = function (io){
       }
 
       socket.on('p1Choice', function (obj){
+        p1Choice = obj.p1Choice;
         console.log(obj, 'player1Choice obj');
-        io.to(roomNumber).emit('p1ChoiceMade', {'is': 'working'});
+        io.to(roomNumber).emit('p1ChoiceMade', {});
       });
 
       socket.on('p2Choice', function (obj){
+        p2Choice = obj.p2Choice;
         console.log(obj, 'player2Choice obj');
-        io.to(roomNumber).emit('p2ChoiceMade', {'is': 'working'});
+        if (p1Choice===p2Choice){
+          winner = 'tie';
+        } else if (p1Choice==='rock' && p2Choice==='paper'){
+          winner = player2;
+        } else if (p1Choice==='paper' && p2Choice==='scissors'){
+          winner = player2;
+        } else if (p1Choice==='scissors' && p2Choice==='rock'){
+          winner = player2;
+        } else {
+          winner =  player1;
+        }
+        io.to(roomNumber).emit('p2ChoiceMade', {winner});
       });
       socket.join(roomNumber);
       io.to(roomNumber).emit('player', username);
