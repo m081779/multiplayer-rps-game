@@ -50,6 +50,13 @@
   let room;
   let loggedIn = true;
 	console.log('Socket Connection:',socket, thisUser)
+  $.ajax('/getInfo', {
+    method: 'GET',
+    success: function (data){
+      thisUser = data.currentUser;
+      console.log(data, 'data from /getInfo')
+    }
 
+  });
 	
 </script>

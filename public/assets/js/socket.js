@@ -1,21 +1,8 @@
 if (typeof socket !== "undefined"){
-  // $.ajax({
-  //   url: '/getInfo',
-  //   type: 'GET',
-  //   success: function (){
-      
-  //     room = data.roomNumber.toString();
-  //     console.log(room, 'room from /getInfo')
-  //     console.log(typeof room)
-      
-  //   },
-  //   error: function (err){
-  //     console.log('error from /getuser',err)
-  //   }
-  // })
+  let player1,
+      player2;
   socket.on('player1', function(data){
-    console.log(data.player2, 'player2');
-    console.log(typeof data.player2==='undefined', 'player2 type');
+
     $('#p1Username').text(data.player1);
     if(typeof data.player2 === 'undefined'){
       $('#p2Username').text('Waiting for player 2');
@@ -23,6 +10,8 @@ if (typeof socket !== "undefined"){
     console.log(data, 'data from socket player1');
   });
   socket.on('player2', function(data){
+    player1 = data.player1;
+    player2 = data.player2;
     $('#p1Username').text(data.player1);
     $('#p2Username').text(data.player2);
     $('#messageHeader').text('Are you ready to play?');
@@ -34,13 +23,39 @@ if (typeof socket !== "undefined"){
     console.log(data, 'data from socket player2');
   });
 
-  $('body').on('click', '.choice', function (){
-    let p1Choice = '',
-        p2Choice = '';
-    p1choice = $(this).text();
-    console.log(typeof p1Choice, '$(this).text()');
-    if (p1Choice !== ''){
-      console.log(p1Choice, p2Choice)
+  socket.on('p1ChoiceMade', function (data){
+    console.log(data, 'from p1choiceMade');
+    $('#p1Choices').hide();
+    $('#p2Choices').show();
+    $('#messageHeader').text('Nice choice player 1!');
+    $('#messageText').text('Player 2 make your choice...');
+  });
+
+  socket.on('p2ChoiceMade', function (data){
+    console.log(data, 'from p2choiceMade');
+    $('#p2Choices').hide();
+    $('#p1Choices').show();
+    $('#messageHeader').text('Nice choice player 2!');
+    $('#messageText').text('Player 1 make your choice...');
+  });
+
+  $('body').on('click', '.choice', function (e){
+    e.preventDefault();
+    let p1Choice = $(this).text(),
+        p2Choice = $(this).text();
+    if(thisUser.username===player1){
+      if (p1Choice !== '' && $(this).parent().attr('id') === 'p1Choices'){
+        console.log(thisUser,"thisUser from player1");
+        socket.emit('p1Choice', {player1, p1Choice});
+      }
+    }
+
+    
+    if (thisUser.username===player2){
+      if (p2Choice !== '' && $(this).parent().attr('id') === 'p2Choices'){
+        console.log(thisUser,"thisUser from player2");
+        socket.emit('p2Choice', {player2, p2Choice});
+      }
     }
   });
 }

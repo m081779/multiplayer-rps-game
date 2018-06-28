@@ -39,7 +39,7 @@ module.exports = function (io){
   });
 
   router.get('/getInfo', function (req,res){
-    res.json({roomNumber: roomNumber});
+    res.json({roomNumber, currentUser, player1, player2});
   });
 
   io.on('connection', function (socket){
@@ -58,6 +58,16 @@ module.exports = function (io){
         socket.join(roomNumber);
         io.to(roomNumber).emit('player2', {player1,player2});
       }
+
+      socket.on('p1Choice', function (obj){
+        console.log(obj, 'player1Choice obj');
+        io.to(roomNumber).emit('p1ChoiceMade', {'is': 'working'});
+      });
+
+      socket.on('p2Choice', function (obj){
+        console.log(obj, 'player2Choice obj');
+        io.to(roomNumber).emit('p2ChoiceMade', {'is': 'working'});
+      });
       socket.join(roomNumber);
       io.to(roomNumber).emit('player', username);
       console.log(`${username} added to room ${roomNumber}`);
