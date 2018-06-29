@@ -36,7 +36,7 @@ if (typeof socket !== "undefined"){
     $('#p2Choices').hide();
     $('#p1Choices').show();
     $('#messageHeader').text('Nice choice player 2!');
-    $('#messageText').text(data.winner);
+    $('#messageText').text(data.winner + " is the winner!");
   });
 
   $('body').on('click', '.choice', function (e){
