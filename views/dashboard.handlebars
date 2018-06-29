@@ -9,8 +9,13 @@
 <div class="container">
 
   <div class="row">
-
     <div class="col-lg-4 well">
+      <h3 id="messageHeader"></h3>
+      <p id="messageText"></p>
+    </div>
+
+    {{#if player1}}
+      <div class="col-lg-4 well">
       <h3>Player 1</h3>
       <h4 id="p1Username"></h4>
       <div class="choices" id="p1Choices" style="display:none;">
@@ -19,13 +24,8 @@
         <p class="choice">scissors</p>
       </div>
     </div>
-
-    <div class="col-lg-4 well">
-      <h3 id="messageHeader"></h3>
-      <p id="messageText"></p>
-    </div>
-
-    <div class="col-lg-4 well">
+    {{else}} 
+      <div class="col-lg-4 well">
       <h3>Player 2</h3>
       <h4 id="p2Username" ></h4>
        <div class="choices" id="p2Choices" style="display:none;">
@@ -34,6 +34,10 @@
         <p class="choice">scissors</p>
       </div>
     </div>
+    {{/if}}
+
+    
+    
 
   </div>
 </div>
