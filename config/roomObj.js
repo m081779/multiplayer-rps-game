@@ -97,7 +97,7 @@ module.exports = {
       }
     });
     //sets the correct player in the correct room to an empty string
-    this.rooms[roomNum.toString()][player] = '';
+    if (roomNum) this.rooms[roomNum.toString()][player] = '';
     callback();
   }
 };
