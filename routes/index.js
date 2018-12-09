@@ -57,7 +57,6 @@ module.exports = function (io){
           
       //add connection to object that stores usernames and socket id's as property value pairs
       socketObj.addConnection(username, id, function () {
-        console.log('connection added', socketObj.connections[username]);
         if (roomObj.rooms[roomNumber].player1===username){
           player1 = username;
           socket.join(roomNumber);
@@ -71,13 +70,11 @@ module.exports = function (io){
   
         socket.on('p1Choice', function (obj){
           p1Choice = obj.p1Choice;
-          console.log(obj, 'player1Choice obj');
           io.to(roomNumber).emit('p1ChoiceMade', {});
         });
   
         socket.on('p2Choice', function (obj){
           p2Choice = obj.p2Choice;
-          console.log(obj, 'player2Choice obj');
           if (p1Choice===p2Choice){
             winner = 'tie';
           } else if (p1Choice==='rock' && p2Choice==='paper'){
@@ -93,7 +90,6 @@ module.exports = function (io){
         });
         socket.join(roomNumber);
         io.to(roomNumber).emit('player', username);
-        console.log(`${username} added to room ${roomNumber}`);
       });
   
       connections = socketObj.getAllConnections();//gets entire socket object with all connections
