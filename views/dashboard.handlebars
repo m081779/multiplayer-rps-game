@@ -48,19 +48,15 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-
-  let socket = io();
-	let thisUser;
-  let room;
-  let loggedIn = true;
-	console.log('Socket Connection:',socket, thisUser)
+  const socket = io(),
+	      thisUser,
+        room,
+        loggedIn = true;
   $.ajax('/getInfo', {
     method: 'GET',
     success: function (data){
       thisUser = data.currentUser;
-      console.log(data, 'data from /getInfo')
     }
-
   });
 	
 </script>
