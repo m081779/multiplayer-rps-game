@@ -1,3 +1,4 @@
+//dependencies
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
@@ -10,8 +11,12 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
+const favicon = require('serve-favicon');
 
 const config = require('./config/database');
+
+//setup favicon middleware
+app.use(favicon(__dirname + '/public/assets/img/favicon.ico'));
 
 //express-handlebars middleware
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -21,6 +26,7 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//setting up cookie parser middleware
 app.use(cookieParser());
 
 //serving up static files
@@ -29,9 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.Promise = Promise;
 mongoose
   .connect(config.database)
-  .then( result => {
-    console.log(`Connected to database '${result.connections[0].name}' on ${result.connections[0].host}:${result.connections[0].port}`);
-  })
+  .then( result => console.log(`Connected to database '${result.connections[0].name}' on ${result.connections[0].host}:${result.connections[0].port}`))
   .catch(err => console.log('There was an error with your connection:', err));
 
 
@@ -53,8 +57,6 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 require('./config/passport')(passport); // pass passport for configuration
-
-
 
 
 //routes
