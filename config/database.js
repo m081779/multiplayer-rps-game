@@ -1,3 +1,5 @@
+const localDB = "mongodb://localhost/test";//change 'test' to desired name for DB
+
 module.exports = {
-  database: process.env.MONGODB_URI || 'mongodb://localhost:27017/rps-game'
-};
+  MONGODB_URI: process.env.MONGODB_URI || localDB
+}
