@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from 'react-router-dom'
 
-const Nav = () =>
+
+const Nav = (props) =>
   <nav className="navbar navbar-inverse navbar-top">
     <div className="container-fluid">
       <div className="navbar-header">
@@ -11,12 +11,11 @@ const Nav = () =>
           <span className="icon-bar" />
         </button>
         <a href="/" className="navbar-brand">
-          MERN scaffolding
+          Rock Paper Scissors!
         </a>
         <div style={{position: 'absolute', right:
         0, top: '50%', transform: 'translate(-10%, -50%)'}}>
-          <Link to="/"><button className="btn btn-info" style={{marginRight: '10px'}}>Add User</button></Link>
-          <Link to="/viewusers"><button className="btn btn-info">View All Users</button></Link>
+          {props.children}
         </div>
       </div>
     </div>
